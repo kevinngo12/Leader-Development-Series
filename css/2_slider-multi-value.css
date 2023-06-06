@@ -1,0 +1,279 @@
+/* -------------------------------- 
+
+File#: _2_slider-multi-value
+Title: Multi Value Slider
+Descr: Slider element for choosing a minimum and maximum value in a specified range
+Usage: codyhouse.co/license
+
+-------------------------------- */
+/* reset */
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+* {
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body {
+  background-color: hsl(0, 0%, 100%);
+  font-family: system-ui, sans-serif;
+  color: hsl(230, 7%, 23%);
+  font-size: 1rem;
+}
+
+h1, h2, h3, h4 {
+  line-height: 1.2;
+  color: hsl(230, 13%, 9%);
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2.0736rem;
+}
+
+h2 {
+  font-size: 1.728rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+h4 {
+  font-size: 1.2rem;
+}
+
+ol, ul, menu {
+  list-style: none;
+}
+
+button, input, textarea, select {
+  background-color: transparent;
+  border-radius: 0;
+  color: inherit;
+  line-height: inherit;
+  appearance: none;
+}
+
+textarea {
+  resize: vertical;
+  overflow: auto;
+  vertical-align: top;
+}
+
+a {
+  color: hsl(250, 84%, 54%);
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+img, video, svg {
+  display: block;
+  max-width: 100%;
+}
+
+@media (min-width: 64rem) {
+  body {
+    font-size: 1.25rem;
+  }
+
+  h1 {
+    font-size: 3.051rem;
+  }
+
+    h2 {
+    font-size: 2.44rem;
+  }
+
+    h3 {
+    font-size: 1.75rem;
+  }
+
+    h4 {
+    font-size: 1.5625rem;
+  }
+}
+
+/* variables */
+:root {
+  /* colors */
+  --ss4-color-primary-hsl: 250, 84%, 54%;
+  --ss4-color-bg-hsl: 0, 0%, 100%;
+  --ss4-color-contrast-high-hsl: 230, 7%, 23%;
+  --ss4-color-contrast-higher-hsl: 230, 13%, 9%;
+  --ss4-color-contrast-lower-hsl: 240, 4%, 85%;
+  --ss4-color-bg-dark-hsl: 240, 4%, 95%;
+  --ss4-color-contrast-low-hsl: 240, 4%, 65%;
+
+  /* spacing */
+  --ss4-space-3xs: 0.25rem;
+  --ss4-space-xs: 0.5rem;
+  --ss4-space-sm: 0.75rem;
+  --ss4-space-2xs: 0.375rem;
+
+  /* typography */
+  --ss4-text-sm: 0.833rem;
+}
+
+@media(min-width: 64rem){
+  :root {
+    /* spacing */
+    --ss4-space-3xs: 0.375rem;
+    --ss4-space-xs: 0.75rem;
+    --ss4-space-sm: 1.125rem;
+    --ss4-space-2xs: 0.5625rem;
+
+    /* typography */
+    --ss4-text-sm: 1rem;
+  }
+}
+
+/* form elements */
+.ss4-form-control {
+  font-size: 1em;
+  padding: var(--ss4-space-2xs) var(--ss4-space-xs);
+  background: hsl(var(--ss4-color-bg-dark-hsl));
+  line-height: 1.2;
+  box-shadow: inset 0px 0px 0px 1px hsl(var(--ss4-color-contrast-lower-hsl));
+  transition: all 0.2s ease;
+  border-radius: 0.25em;
+}
+
+.ss4-form-control::placeholder {
+  opacity: 1;
+  color: hsl(var(--ss4-color-contrast-low-hsl));
+}
+
+.ss4-form-control:focus, .ss4-form-control:focus-within {
+  background: hsl(var(--ss4-color-bg-hsl));
+  box-shadow: inset 0px 0px 0px 1px hsla(var(--ss4-color-contrast-lower-hsl), 0), 0px 0px 0px 2px hsl(var(--ss4-color-primary-hsl)), 0 0.3px 0.4px rgba(0, 0, 0, 0.025),0 0.9px 1.5px rgba(0, 0, 0, 0.05), 0 3.5px 6px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+/* component */
+.slider--multi-value {
+  position: relative;
+}
+.slider--multi-value .slider__range {
+  pointer-events: none;
+}
+
+.slider--multi-value .slider__range:nth-of-type(1) {
+  --slider-fill-value-start: 0%;
+  --slider-fill-value-end: 100%;
+}
+
+.slider--multi-value .slider__range:nth-of-type(2) {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.slider--multi-value .slider__input::-webkit-slider-thumb {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+.slider--multi-value .slider__input::-moz-range-thumb {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+.slider--multi-value .slider__input::-webkit-slider-runnable-track {
+  pointer-events: none;
+  background-image: linear-gradient(to right, hsl(var(--ss4-color-contrast-lower-hsl)) var(--slider-fill-value-start), hsl(var(--ss4-color-primary-hsl)) var(--slider-fill-value-start), hsl(var(--ss4-color-primary-hsl)) var(--slider-fill-value-end), hsl(var(--ss4-color-contrast-lower-hsl)) var(--slider-fill-value-end));
+}
+.slider--multi-value .slider__input::-moz-range-track {
+  pointer-events: none;
+  background-image: linear-gradient(to right, hsl(var(--ss4-color-contrast-lower-hsl)) var(--slider-fill-value-start), hsl(var(--ss4-color-primary-hsl)) var(--slider-fill-value-start), hsl(var(--ss4-color-primary-hsl)) var(--slider-fill-value-end), hsl(var(--ss4-color-contrast-lower-hsl)) var(--slider-fill-value-end));
+}
+.slider--multi-value .slider__range:nth-of-type(2) .slider__input::-moz-range-track {
+  background-image: none;
+}
+
+:not(*)::-ms-track,
+.slider--multi-value.slider--ms-fallback {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+:not(*)::-ms-track,
+.slider--multi-value.slider--ms-fallback .slider__range {
+  pointer-events: auto;
+  width: 48%;
+}
+
+:not(*)::-ms-track,
+.slider--multi-value.slider--ms-fallback .slider__range:nth-of-type(2) {
+  position: relative;
+}
+
+.slider__separator {
+  margin: auto var(--ss4-space-xs);
+}
+
+.slider--multi-value.slider--range-not-supported .slider__range {
+  display: inline-block;
+  width: 45%;
+}
+.slider--multi-value.slider--range-not-supported .slider__range:nth-of-type(2) {
+  position: relative;
+}
+
+.slider--range-not-supported .slider__separator {
+  display: none;
+}
+
+/* utility classes */
+.ss4-text-center {
+  text-align: center;
+}
+
+.ss4-margin-top-xs {
+  margin-top: var(--ss4-space-xs);
+}
+
+.ss4-sr-only {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  white-space: nowrap;
+}
+
+.ss4-width-xl {
+  width: 4rem;
+}
+
+.ss4-text-sm {
+  font-size: var(--ss4-text-sm);
+}
+
+.ss4-margin-right-3xs {
+  margin-right: var(--ss4-space-3xs);
+}
+
+.ss4-flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.ss4-flex {
+  display: flex;
+}
+
+.ss4-margin-top-sm {
+  margin-top: var(--ss4-space-sm);
+}
